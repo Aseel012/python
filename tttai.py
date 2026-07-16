@@ -1,7 +1,5 @@
-
 import random as r
 
-player = "X"
 winner = None
 gamerunning = True
 
@@ -22,14 +20,23 @@ def print_board(board):
 
 
 def player_input(board):
-    global player
-
     pos = int(input("Enter a number between 1-9: "))
 
     if 1 <= pos <= 9 and board[pos - 1] == "-":
-        board[pos - 1] = player
+        board[pos - 1] = "X"  # You are always X
     else:
         print("Invalid move!")
+
+
+def computer_input(board):
+    # Get all empty positions
+    empty_positions = [i for i in range(9) if board[i] == "-"]
+    
+    if empty_positions:
+        # Choose a random empty position
+        pos = r.choice(empty_positions)
+        board[pos] = "O"  # Computer is always O
+        print(f"Computer chose position {pos + 1}")
 
 
 # Check rows
@@ -93,37 +100,40 @@ def check_win(board):
         or check_diagonals(board)
     )
 
-# adding computer
+
+def check_tie(board):
+    if "-" not in board:
+        print("It's a tie!")
+        return True
+    return False
 
 
-def computer_input(board):
-    global curr_player
-    
-    # Get all empty positions
-    empty_positions = [i for i in range(9) if board[i] == "-"]
-    
-    if empty_positions:
-        # Choose a random empty position
-        pos = r.choice(empty_positions)
-        board[pos] = curr_player
-        print(f"Computer chose position {pos + 1}")
-
-
-
-
-def player_swtich(board):
-    global player
-    if player == "X":
-        player = "O"
-    else : 
-        player = "X"
-
+# Main game loop
 print_board(board)
 
 while gamerunning:
+    # Your turn (X)
     player_input(board)
     print_board(board)
-    player_swtich(board)
+    
     if check_win(board):
         print(f"{winner} wins!")
         gamerunning = False
+        break
+    
+    if check_tie(board):
+        gamerunning = False
+        break
+    
+    # Computer's turn (O)
+    computer_input(board)
+    print_board(board)
+    
+    if check_win(board):
+        print(f"{winner} wins!")
+        gamerunning = False
+        break
+    
+    if check_tie(board):
+        gamerunning = False
+        break
