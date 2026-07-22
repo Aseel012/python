@@ -39,6 +39,8 @@ def computer_input(board):
         print(f"Computer chose position {pos + 1}")
 
 
+
+
 # Check rows
 def check_rows(board):
     global winner
@@ -58,6 +60,7 @@ def check_rows(board):
     return False
 
 
+
 # Check columns
 def check_columns(board):
     global winner
@@ -75,6 +78,7 @@ def check_columns(board):
         return True
 
     return False
+
 
 
 # Check diagonals
@@ -99,6 +103,7 @@ def check_win(board):
         or check_columns(board)
         or check_diagonals(board)
     )
+
 
 
 def check_tie(board):
